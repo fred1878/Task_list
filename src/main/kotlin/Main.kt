@@ -1,7 +1,5 @@
 fun main() {
-    println("Input the tasks (enter a blank line to end):")
     TaskList().start()
-
 }
 
 class TaskList {
@@ -9,9 +7,13 @@ class TaskList {
 
     fun start() {
         while(true) {
+            println("Input an action (add, print, end):")
             val input = readln().trim()
 
-            if (input == "") {
+            if (input.lowercase() == "end") {
+                println("Tasklist exiting!")
+                break
+            } else if (input.lowercase() == "print") {
                 if (list.isEmpty()) {
                     println("No tasks have been input")
                 } else {
@@ -21,11 +23,31 @@ class TaskList {
                         } else {
                             println("${list.indexOf(item) + 1} $item")
                         }
+                        println()
                     }
                 }
-                break
+            } else if (input.lowercase() == "add") {
+                println("Input a new task (enter a blank line to end):")
+                var task = ""
+                while (true) {
+                    val taskInput = readln().trim()
+                    if (taskInput == "") {
+                        if (task == "") {
+                            println("The task is blank")
+                        } else {
+                            list.add(task)
+                        }
+                        break
+                    } else {
+                        task += if (task == "") {
+                            "$taskInput\n"
+                        } else {
+                            "   $taskInput\n"
+                        }
+                    }
+                }
             } else {
-                list.add(input)
+                println("The input action is invalid")
             }
         }
     }
